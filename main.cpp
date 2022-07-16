@@ -201,6 +201,29 @@ Thing 1) Midi Keyboard
     3) transmit midi controller data
  */
 
+struct MidiKeyboard
+{
+    //number of keys (int)
+    int numKeys = 61;
+    //number of usb ports (int)
+    int numUsbPorts = 2;
+    //number of control knobs (int)
+    int numControlKnobs = 8;
+    //input voltage level (double)
+    double inputVoltageLevel = 5.5;
+    //housing color (std::string)
+    std::string housingColor = "black";
+
+
+    //transmit output midi data
+    void transmitOutputMidiData (int outputMidiChannel);
+    //play arpeggio
+    void playArp (int arpPatternNumber);
+    //transmit midi controller data
+    void transmitMidiControllerData (int midiControlChangeMessageNumber);
+
+};
+
 /*
 Thing 2) Car
 5 properties:
@@ -215,19 +238,82 @@ Thing 2) Car
     3) transport passengers
  */
 
+struct Car
+{
+
+    //number of wheels (int)
+    int numWheels = 4;
+    //number of seats (int)
+    int numSeats = 5;
+    //maximum velocity in km/h (double)
+    double maxVelocity = 210.5;
+    //amount of average fuel per 100km in liter (double)
+    double averageFuel = 6.5;
+    //maximum amount of load in kg (double)
+    double maxLoad = 215.5;
+
+    struct Engine //nested class/struct in stuct Car
+    {
+        //member variables
+        bool isOriginalPart = true;
+        std::string engineCode = "77AA3B";
+        int numCylinder = 6;
+        double strokeVolume = 3.2; // in Liter
+        int numValves = 16;
+
+        //member functions
+        void burnFuel(std::string fuelType, int maxOctaneNumber = 98);
+        void rotateAxles(double maxTorque, bool isFourWheelDrive = false);
+        double compressAir(float resonanceFrequency); // returns the actual calculated pressure level in bar
+
+    };
+
+    //drive forward
+    void driveForward(int numGear, bool isBrakeReleased = true);
+    //comsume fuel / returns the actual volume flow in liter per second
+    double consumeFuel(bool pedalKickdown = true);
+    //exchange parts / changed member function because of logical sense of having only one engine at a time
+    void changeSparePart(Engine newEngine);
+
+    Engine engineBeingChanged;
+};
+
 /*
 Thing 3) Bicycle
 5 properties:
     1) diameter of wheels (double)
     2) size of frame (double)
     3) number of gears (int)
-    4) type of brakes (char())
+    4) type of brakes (std::string)
     5) price (double)
 3 things it can do:
     1) transport a human
     2) shift gear
     3) decelarate
  */
+
+struct Bicycle
+{
+
+    //diameter of wheels in inch (double)
+    double diameterWheels = 28.5;
+    //size of frame in inch (double)
+    double sizeFrame = 40.5;
+    //number of gears (int)
+    int numGears = 21;
+    //type of brakes (std::string)
+    std::string typeBrakes = "disc";
+    //price (double)
+    double price = 500.50;
+
+    //transport a human
+    void transportHuman();
+    //shift gear
+    int shiftGear(int numActualGear); // returns number of new gear
+    //decelarate
+    void decelarateBike();
+
+};
 
 /*
 Thing 4) Player
@@ -243,6 +329,47 @@ Thing 4) Player
     3) shoot bullet
  */
 
+struct Player
+{
+
+    //name of the player (st::string)
+    std::string namePlayer = "Player1";
+    //start position x coordinate (float)
+    float startXPos = 0.0f;
+    //start position y coordinate (float)
+    float startYPos = 10.05f;
+    //speed in x direction (double)
+    double speedX = 10.5;
+    //time since last shoot defined with internal clock-ticker (int)
+    int timeLastShoot = 5;
+
+    struct Weapon //player can get different weapons e.g. in an arcade game
+    {
+        //member variables
+        bool isWeaponFreeZone = false;
+        std::string weaponType = "Shotgun";
+        int numBullets = 10;
+        int damage = 100;
+        int noiseType = 2;
+
+        //member functions of nested class
+        void shootBullet(double bulletCoordinateX, double bulletCoordinateY);
+        void makeNoise(bool isSoundDeviceActive = true);
+        void changeBulletPattern(int bulletPatternNum);
+
+    };
+
+    //move in x direction
+    void moveX();
+    //move in y direction
+    void moveY();
+    //get Weapons including upgrades
+    void getWeaponUpgrade(Weapon newWeapon);
+
+    Weapon weaponUpgrade;
+
+};
+
 /*
 Thing 5) Woofer
 5 properties:
@@ -256,6 +383,29 @@ Thing 5) Woofer
     2) moves the air in the tube
     3) reproduces the low frequencies
  */
+
+struct Woofer
+{
+
+    //cone diameter in cm (int)
+    int coneDiameter = 17;
+    //resonance frequency in Hertz (doulbe)
+    double resFreqWoofer = 50.5;
+    //overall lenght in cm (int)
+    int overallLenght = 25;
+    //membrane area in cm² (double)
+    double menbraneArea = 142.4;
+    //sound pressure level in dB/W/m (float)
+    float splWoofer = 98.05f;
+
+    //converts electrical energy into air vibration
+    void vibrateAir();
+    //vibrates the air in the tube
+    void driveTube();
+    //reproduces the low frequencies
+    void playLowFreq();
+
+};
 
 /*
 Thing 6) Tweeter
@@ -271,6 +421,29 @@ Thing 6) Tweeter
     3) connects to an amplifier
  */
 
+struct Tweeter
+{
+
+    //dome diameter in cm (double)
+    double domeDiameter = 25.4;
+    //voice coil diameter in cm (double)
+    double voiceCoilDiameter = 8.4;
+    //resonance frequency in hz (double)
+    double resFreqTweeter = 3850.5;
+    //sound pressure level in dB/W/m (float)
+    float splTweeter = 102.12f;
+    //dc resistance in ohm (double)
+    double dcResistanceTweeter = 3.8;
+
+    //produce the upper range of sound
+    void playHighFrq(int splitFreqTweeter);
+    //convert electrical signal to acoustical waveforms
+    void convertSignalToWaveform();
+    //connects to an amplifier
+    void connectToAmp(int lenghtWire);
+
+};
+
 /*
 Thing 7) Enclosure
 5 properties:
@@ -284,6 +457,29 @@ Thing 7) Enclosure
     2) provide mounting for woofer
     3) provide mounting for terminal
  */
+
+struct Enclosure
+{
+
+    //lenght in cm (int)
+    int lenghtEnclosure = 40;
+    //width in cm (int)
+    int widthEnclosure = 20;
+    //height in cm (int)
+    int heightEnclosure = 30;
+    //volume in liter (float)
+    float volEnclosure = 24;
+    //weight in grams (int)
+    int weightEnclosure = 2500;
+
+    //provide defined volume
+    void provideVolume();
+    //provide mounting for woofer
+    void wooferMount();
+    //provide mounting for terminal
+    void terminalMount();
+
+};
 
 /*
 Thing 8) Terminal
@@ -299,6 +495,29 @@ Thing 8) Terminal
     3) control volume
  */
 
+struct Terminal
+{
+
+    //number of connections (int)
+    int numConnections = 4;
+    //number of fixation points (int)
+    int numFixations = 4;
+    //lenght in cm (int)
+    int lenghtTerminal = 5;
+    //width in cm (int)
+    int widthTerminal = 7;
+    //number of switches (int)
+    int numSwitchesTerminal = 2;
+
+    //provide ports
+    void providePorts();
+    //provide switches
+    void provideSwitches();
+    //control volume
+    void setVolume();
+
+};
+
 /*
 Thing 9) Amplifier
 5 properties:
@@ -313,6 +532,29 @@ Thing 9) Amplifier
     3) split the audio signal into frequency bands
  */
 
+struct Amplifier
+{
+
+    //amount of power consumed in watt-hours (float)
+    float consumedPower = 200.05f;
+    //number of inputs (int)
+    int numInputsAmp = 4;
+    //maximum output power in watt (double)
+    double maxOutPower = 200.5;
+    //lenght in cm (int)
+    int lenghtAmp = 10;
+    //width in cm (int)
+    int widthAmp = 10;
+
+    //amplify an electrical signal
+    void amplifySignal();
+    //consume electrical power
+    void consumePower();
+    //split the audio signal into frequency bands
+    void splitFreqSignal(double splitFreqLow, double splitFreqHigh);
+
+};
+
 /*
 Thing 10) Active Loudspeaker Box
 5 properties:
@@ -326,6 +568,29 @@ Thing 10) Active Loudspeaker Box
     2) amplify audio signal
     3) comsume electrical power
  */
+
+struct ActiveLoudspeakerBox
+{
+
+    //Woofer
+    Woofer wooferSmall;
+    //Tweeter
+    Tweeter tweeterMid;
+    //Enclosure
+    Enclosure ClosedBoxA;
+    //Terminal
+    Terminal terminalA;
+    //Amplifier
+    Amplifier StudioClassA;
+
+    //play audio signal
+    void playAudioSignal(bool signalExists = true);
+    //amplify audio signal
+    void amplifyAudioSignal(Amplifier ampA);
+    //comsume electrical power
+    double consumeElectricalPower(double voltageLevel); //returns average power consumption
+
+};
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
