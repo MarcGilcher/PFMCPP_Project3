@@ -191,19 +191,16 @@ struct MidiKeyboard
 void MidiKeyboard::transmitOutputMidiData( int outputMidiChannel )
 {
     outputMidiChannel = 1;
-    //return nothing
 }
 
 void MidiKeyboard::playArp( int arpPatternNumber )
 {
     arpPatternNumber = 1;
-    //return nothing
 }
 
 void MidiKeyboard::transmitMidiControllerData( int midiControlChangeMessageNumber )
 {
     midiControlChangeMessageNumber = 100;
-    //return nothing
 }
 
 struct Car
@@ -240,7 +237,6 @@ void Car::Engine::burnFuel(std::string fuelType, int maxOctaneNumber )
     {
         fuelType = "SuperPlus";
     }
-    //return nothing
 }
 
 void Car::Engine::rotateAxles(double maxTorque, bool isFourWheelDrive)
@@ -249,7 +245,6 @@ void Car::Engine::rotateAxles(double maxTorque, bool isFourWheelDrive)
     {
         maxTorque += 10.5;
     }
-    //return nothing
 }
 
 double Car::Engine::compressAir(double resonaceFrequency)
@@ -265,7 +260,6 @@ void Car::driveForward(int numGear, bool isBrakeReleased)
     {
         numGear = 1;
     }
-    //return nothing
 }
 
 double Car::consumeFuel(bool pedalKickdown)
@@ -280,7 +274,6 @@ double Car::consumeFuel(bool pedalKickdown)
 void Car::changeSparePart(Car::Engine newEngine)
 {
     newEngine = engineBeingChanged;
-    //return nothing
 }
 
 struct Bicycle
@@ -298,7 +291,6 @@ struct Bicycle
 
 void Bicycle::transportHuman()
 {
-    //return nothing
 }
 
 int Bicycle::shiftGear(int numActualGear)
@@ -310,7 +302,6 @@ int Bicycle::shiftGear(int numActualGear)
 
 void Bicycle::decelarateBike()
 {
-    //return nothing
 }
 
 struct Player
@@ -345,7 +336,6 @@ void Player::Weapon::shootBullet(double bulletCoordinateX, double bulletCoordina
 {
     bulletCoordinateX += 1;
     bulletCoordinateY += 1;
-    //return nothing
 }
 
 void Player::Weapon::makeNoise(bool isSoundDeviceActive)
@@ -354,29 +344,26 @@ void Player::Weapon::makeNoise(bool isSoundDeviceActive)
     {
         noiseType = 1;
     }
-    //return nothing
 }
 
 void Player::Weapon::changeBulletPattern(int bulletPatternNum)
 {
-        bulletPatternNum += 1;
-        //return nothing    
+    bulletPatternNum += 1;  
 }
 
 void Player::moveX()
 {
-    //return nothing
+    std::cout << "Player " << namePlayer << " moved in X";
 }
 
 void Player::moveY()
 {
-    //return nothing
+    std::cout << "Player " << namePlayer << " moved in Y";
 }
 
 void Player::getWeaponUpgrade(Player::Weapon newWeapon)
 {
     newWeapon = weaponUpgrade;
-    //return nothing
 }
 
 struct Woofer
@@ -394,17 +381,17 @@ struct Woofer
 
 void Woofer::vibrateAir()
 {
-    //return nothing
+    std::cout << "Woofer SPL is " << splWoofer;
 }
 
 void Woofer::driveTube()
 {
-    //return nothing
+    std::cout << "Resonance Frequency is " << resFreqWoofer;
 }
 
 void Woofer::playLowFreq()
 {
-    //return nothing
+    std::cout << "Woofer starts playing";
 }
 
 struct Tweeter
@@ -423,19 +410,17 @@ struct Tweeter
 void Tweeter::playHighFrq(int splitFreqTweeter)
 {
     splitFreqTweeter += 500;
-    //return nothing
 }
 
 void Tweeter::convertSignalToWaveform()
 {
-    //return nothing
+    std::cout << "start converting";
 }
 
 void Tweeter::connectToAmp(int lenghtWire)
 {
     int completeLenghtWires = 0;
     completeLenghtWires = lenghtWire * 2;
-    //return nothing
 }
 
 struct Enclosure
@@ -453,17 +438,17 @@ struct Enclosure
 
 void Enclosure::provideVolume()
 {
-    //return nothing
+    std::cout << "Volume is: " << volEnclosure;
 }
 
 void Enclosure::wooferMount()
 {
-    //return nothing
+    std::cout << "max space for woofer is: " << widthEnclosure;
 }
 
 void Enclosure::terminalMount()
 {
-    //return nothing
+    std::cout << "use a proper terminal";
 }
 
 struct Terminal
@@ -481,17 +466,17 @@ struct Terminal
 
 void Terminal::providePorts()
 {
-    //return nothing
+    std::cout << numConnections << " Connections are available";
 }
 
 void Terminal::provideSwitches()
 {
-    //return nothing
+    std::cout << "Number of Switches: " << numSwitchesTerminal;
 }
 
 void Terminal::setVolume()
 {
-    //return nothing
+    std::cout << "Define the Volume here";
 }
 
 struct Amplifier
@@ -509,19 +494,18 @@ struct Amplifier
 
 void Amplifier::amplifySignal()
 {
-    //return nothing
+    std::cout << "Check maximum Ouput Power:" << maxOutPower;
 }
 
 void Amplifier::consumePower()
 {
-    //return nothing
+    std::cout << "Consumed power is: " << consumedPower;
 }
 
 void Amplifier::splitFreqSignal(double splitFreqLow, double splitFreqHigh)
 {
     splitFreqLow = 150.5;
     splitFreqHigh = splitFreqLow + 2500.5;
-    //return nothing
 }
 
 struct ActiveLoudspeakerBox
@@ -543,13 +527,11 @@ void ActiveLoudspeakerBox::playAudioSignal(bool signalExists)
     {
         std::cout << "signalYES";
     }
-    //return nothing
 }
 
 void ActiveLoudspeakerBox::amplifyAudioSignal(Amplifier ampA)
 {
     ampA.amplifySignal();
-    //return nothing
 }
 
 double ActiveLoudspeakerBox::consumeElectricalPower(double voltageLevel)
