@@ -108,9 +108,56 @@ struct CarWash
     You'll need to insert the Person struct from the video in the space below.
  */
 
+struct Person
+{
+    int age;
+    int height;
+    float hairLenght;
+    float GPA;
+    unsigned int SATscore;
+    int distanceTraveled;
+    int systemClockTicker;
 
+    struct Foot
+    {
+        int stepCounter = 0;
+        int averageStepLenght;
 
+        void stepForward();
+        int stepSize();
+    };
 
+    Foot leftFoot;
+    Foot rightFoot;
+
+    void run( int howFast, bool startWithLeftFoot);
+};
+
+void Person::Foot::stepForward()
+{
+   stepCounter += 1; 
+}
+
+int Person::Foot::stepSize()
+{
+    return averageStepLenght;
+}
+
+void Person::run( int howFast, bool startWithLeftFoot)
+{
+    if( startWithLeftFoot == true )
+    {
+        leftFoot.stepForward();
+        rightFoot.stepForward();
+    }
+    else
+    {
+        rightFoot.stepForward();
+        leftFoot.stepForward();
+    }
+    distanceTraveled += leftFoot.stepSize() + rightFoot.stepSize();
+    howFast = distanceTraveled / systemClockTicker;
+}
 
  /*
  2) provide implementations for the member functions you declared in your 10 user-defined types from the previous video outside of your UDT definitions.
@@ -127,411 +174,371 @@ struct CarWash
  if your code produces a -Wpadded warning, add '-Wno-padded' to the .replit file with the other compiler flags (-Weverything -Wno-missing-prototypes etc etc)
  */
 
-
-/*
-Thing 1) Midi Keyboard
-5 properties:
-    1) number of keys (int)
-    2) number of usb ports (int)
-    3) number of control knobs (int)
-    4) input voltage level (double)
-    5) housing color (std::string)
-3 things it can do:
-    1) transmit output midi data
-    2) play arpeggio
-    3) transmit midi controller data
- */
-
 struct MidiKeyboard
 {
-    //number of keys (int)
     int numKeys = 61;
-    //number of usb ports (int)
     int numUsbPorts = 2;
-    //number of control knobs (int)
     int numControlKnobs = 8;
-    //input voltage level (double)
     double inputVoltageLevel = 5.5;
-    //housing color (std::string)
     std::string housingColor = "black";
 
-
-    //transmit output midi data
     void transmitOutputMidiData (int outputMidiChannel);
-    //play arpeggio
     void playArp (int arpPatternNumber);
-    //transmit midi controller data
     void transmitMidiControllerData (int midiControlChangeMessageNumber);
 
 };
 
-/*
-Thing 2) Car
-5 properties:
-    1) number of wheels (int)
-    2) number of seats (int)
-    3) maximum velocity (double)
-    4) amount of average fuel (double)
-    5) maximum amount of load (double)
-3 things it can do:
-    1) drive forward
-    2) comsume fuel
-    3) transport passengers
- */
+void MidiKeyboard::transmitOutputMidiData( int outputMidiChannel )
+{
+    outputMidiChannel = 1;
+}
+
+void MidiKeyboard::playArp( int arpPatternNumber )
+{
+    arpPatternNumber = 1;
+}
+
+void MidiKeyboard::transmitMidiControllerData( int midiControlChangeMessageNumber )
+{
+    midiControlChangeMessageNumber = 100;
+}
 
 struct Car
 {
-
-    //number of wheels (int)
     int numWheels = 4;
-    //number of seats (int)
     int numSeats = 5;
-    //maximum velocity in km/h (double)
     double maxVelocity = 210.5;
-    //amount of average fuel per 100km in liter (double)
     double averageFuel = 6.5;
-    //maximum amount of load in kg (double)
     double maxLoad = 215.5;
 
-    struct Engine //nested class/struct in stuct Car
+    struct Engine
     {
-        //member variables
         bool isOriginalPart = true;
         std::string engineCode = "77AA3B";
         int numCylinder = 6;
-        double strokeVolume = 3.2; // in Liter
+        double strokeVolume = 3.2;
         int numValves = 16;
 
-        //member functions
         void burnFuel(std::string fuelType, int maxOctaneNumber = 98);
         void rotateAxles(double maxTorque, bool isFourWheelDrive = false);
-        double compressAir(float resonanceFrequency); // returns the actual calculated pressure level in bar
-
+        double compressAir(double resonanceFrequency);
     };
 
-    //drive forward
     void driveForward(int numGear, bool isBrakeReleased = true);
-    //comsume fuel / returns the actual volume flow in liter per second
     double consumeFuel(bool pedalKickdown = true);
-    //exchange parts / changed member function because of logical sense of having only one engine at a time
     void changeSparePart(Engine newEngine);
 
     Engine engineBeingChanged;
 };
 
-/*
-Thing 3) Bicycle
-5 properties:
-    1) diameter of wheels (double)
-    2) size of frame (double)
-    3) number of gears (int)
-    4) type of brakes (std::string)
-    5) price (double)
-3 things it can do:
-    1) transport a human
-    2) shift gear
-    3) decelarate
- */
+void Car::Engine::burnFuel(std::string fuelType, int maxOctaneNumber )
+{
+    if( maxOctaneNumber == 98 )
+    {
+        fuelType = "SuperPlus";
+    }
+}
+
+void Car::Engine::rotateAxles(double maxTorque, bool isFourWheelDrive)
+{
+    if( isFourWheelDrive == true )
+    {
+        maxTorque += 10.5;
+    }
+}
+
+double Car::Engine::compressAir(double resonaceFrequency)
+{
+    double pressure = 0.0;
+    pressure = resonaceFrequency * 10;
+    return pressure; 
+}
+
+void Car::driveForward(int numGear, bool isBrakeReleased)
+{
+    if( isBrakeReleased == true )
+    {
+        numGear = 1;
+    }
+}
+
+double Car::consumeFuel(bool pedalKickdown)
+{
+    if( pedalKickdown == true )
+    {
+        averageFuel *= 2;
+    }
+    return averageFuel;
+}
+
+void Car::changeSparePart(Car::Engine newEngine)
+{
+    newEngine = engineBeingChanged;
+}
 
 struct Bicycle
 {
-
-    //diameter of wheels in inch (double)
     double diameterWheels = 28.5;
-    //size of frame in inch (double)
     double sizeFrame = 40.5;
-    //number of gears (int)
     int numGears = 21;
-    //type of brakes (std::string)
     std::string typeBrakes = "disc";
-    //price (double)
     double price = 500.50;
 
-    //transport a human
     void transportHuman();
-    //shift gear
-    int shiftGear(int numActualGear); // returns number of new gear
-    //decelarate
+    int shiftGear(int numActualGear);
     void decelarateBike();
-
 };
 
-/*
-Thing 4) Player
-5 properties:
-    1) name of the player (st::string)
-    2) start position x coordinate (float)
-    3) start position y coordinate (float)
-    4) speed in x direction (double)
-    5) time since last shoot (int)
-3 things it can do:
-    1) move in x direction
-    2) move in y direction
-    3) shoot bullet
- */
+void Bicycle::transportHuman()
+{
+}
+
+int Bicycle::shiftGear(int numActualGear)
+{
+    int lastgear = numActualGear;
+    numActualGear = lastgear + 1;
+    return numActualGear;
+}
+
+void Bicycle::decelarateBike()
+{
+}
 
 struct Player
 {
-
-    //name of the player (st::string)
     std::string namePlayer = "Player1";
-    //start position x coordinate (float)
     float startXPos = 0.0f;
-    //start position y coordinate (float)
     float startYPos = 10.05f;
-    //speed in x direction (double)
     double speedX = 10.5;
-    //time since last shoot defined with internal clock-ticker (int)
     int timeLastShoot = 5;
 
-    struct Weapon //player can get different weapons e.g. in an arcade game
+    struct Weapon
     {
-        //member variables
         bool isWeaponFreeZone = false;
         std::string weaponType = "Shotgun";
         int numBullets = 10;
         int damage = 100;
         int noiseType = 2;
 
-        //member functions of nested class
         void shootBullet(double bulletCoordinateX, double bulletCoordinateY);
         void makeNoise(bool isSoundDeviceActive = true);
         void changeBulletPattern(int bulletPatternNum);
-
     };
 
-    //move in x direction
     void moveX();
-    //move in y direction
     void moveY();
-    //get Weapons including upgrades
     void getWeaponUpgrade(Weapon newWeapon);
 
     Weapon weaponUpgrade;
-
 };
 
-/*
-Thing 5) Woofer
-5 properties:
-    1) cone diameter in cm (int)
-    2) resonance frequency in Hertz (doulbe)
-    3) overall lenght in cm (int)
-    4) membrane area in cm² (double)
-    5) sound pressure level in dB/W/m (float)
-3 things it can do:
-    1) converts electrical energy into air vibration
-    2) moves the air in the tube
-    3) reproduces the low frequencies
- */
+void Player::Weapon::shootBullet(double bulletCoordinateX, double bulletCoordinateY)
+{
+    bulletCoordinateX += 1;
+    bulletCoordinateY += 1;
+}
+
+void Player::Weapon::makeNoise(bool isSoundDeviceActive)
+{
+    if( isSoundDeviceActive == true)
+    {
+        noiseType = 1;
+    }
+}
+
+void Player::Weapon::changeBulletPattern(int bulletPatternNum)
+{
+    bulletPatternNum += 1;  
+}
+
+void Player::moveX()
+{
+    std::cout << "Player " << namePlayer << " moved in X";
+}
+
+void Player::moveY()
+{
+    std::cout << "Player " << namePlayer << " moved in Y";
+}
+
+void Player::getWeaponUpgrade(Player::Weapon newWeapon)
+{
+    newWeapon = weaponUpgrade;
+}
 
 struct Woofer
 {
-
-    //cone diameter in cm (int)
     int coneDiameter = 17;
-    //resonance frequency in Hertz (doulbe)
     double resFreqWoofer = 50.5;
-    //overall lenght in cm (int)
     int overallLenght = 25;
-    //membrane area in cm² (double)
     double menbraneArea = 142.4;
-    //sound pressure level in dB/W/m (float)
     float splWoofer = 98.05f;
 
-    //converts electrical energy into air vibration
     void vibrateAir();
-    //vibrates the air in the tube
     void driveTube();
-    //reproduces the low frequencies
     void playLowFreq();
-
 };
 
-/*
-Thing 6) Tweeter
-5 properties:
-    1) dome diameter in cm (double)
-    2) voice coil diameter in cm (double)
-    3) resonance frequency in hz (double)
-    4) sound pressure level in dB/W/m (float)
-    5) dc resistance in ohm (double)
-3 things it can do:
-    1) produce the upper range of sound
-    2) convert electrical signal to acoustical waveforms
-    3) connects to an amplifier
- */
+void Woofer::vibrateAir()
+{
+    std::cout << "Woofer SPL is " << splWoofer;
+}
+
+void Woofer::driveTube()
+{
+    std::cout << "Resonance Frequency is " << resFreqWoofer;
+}
+
+void Woofer::playLowFreq()
+{
+    std::cout << "Woofer starts playing";
+}
 
 struct Tweeter
 {
-
-    //dome diameter in cm (double)
     double domeDiameter = 25.4;
-    //voice coil diameter in cm (double)
     double voiceCoilDiameter = 8.4;
-    //resonance frequency in hz (double)
     double resFreqTweeter = 3850.5;
-    //sound pressure level in dB/W/m (float)
     float splTweeter = 102.12f;
-    //dc resistance in ohm (double)
     double dcResistanceTweeter = 3.8;
 
-    //produce the upper range of sound
     void playHighFrq(int splitFreqTweeter);
-    //convert electrical signal to acoustical waveforms
     void convertSignalToWaveform();
-    //connects to an amplifier
     void connectToAmp(int lenghtWire);
-
 };
 
-/*
-Thing 7) Enclosure
-5 properties:
-    1) lenght in cm (int)
-    2) width in cm (int)
-    3) height in cm (int)
-    4) volume in liter (float)
-    5) weight in grams (int)
-3 things it can do:
-    1) provide resonance volume
-    2) provide mounting for woofer
-    3) provide mounting for terminal
- */
+void Tweeter::playHighFrq(int splitFreqTweeter)
+{
+    splitFreqTweeter += 500;
+}
+
+void Tweeter::convertSignalToWaveform()
+{
+    std::cout << "start converting";
+}
+
+void Tweeter::connectToAmp(int lenghtWire)
+{
+    int completeLenghtWires = 0;
+    completeLenghtWires = lenghtWire * 2;
+}
 
 struct Enclosure
 {
-
-    //lenght in cm (int)
     int lenghtEnclosure = 40;
-    //width in cm (int)
     int widthEnclosure = 20;
-    //height in cm (int)
     int heightEnclosure = 30;
-    //volume in liter (float)
     float volEnclosure = 24;
-    //weight in grams (int)
     int weightEnclosure = 2500;
 
-    //provide defined volume
     void provideVolume();
-    //provide mounting for woofer
     void wooferMount();
-    //provide mounting for terminal
     void terminalMount();
-
 };
 
-/*
-Thing 8) Terminal
-5 properties:
-    1) number of connections (int)
-    2) number of fixation points (int)
-    3) lenght in cm (int)
-    4) width in cm (int)
-    5) number of switches (int)
-3 things it can do:
-    1) provide ports
-    2) provide switches
-    3) control volume
- */
+void Enclosure::provideVolume()
+{
+    std::cout << "Volume is: " << volEnclosure;
+}
+
+void Enclosure::wooferMount()
+{
+    std::cout << "max space for woofer is: " << widthEnclosure;
+}
+
+void Enclosure::terminalMount()
+{
+    std::cout << "use a proper terminal";
+}
 
 struct Terminal
 {
-
-    //number of connections (int)
     int numConnections = 4;
-    //number of fixation points (int)
     int numFixations = 4;
-    //lenght in cm (int)
     int lenghtTerminal = 5;
-    //width in cm (int)
     int widthTerminal = 7;
-    //number of switches (int)
     int numSwitchesTerminal = 2;
 
-    //provide ports
     void providePorts();
-    //provide switches
     void provideSwitches();
-    //control volume
     void setVolume();
-
 };
 
-/*
-Thing 9) Amplifier
-5 properties:
-    1) amount of power consumed in watt-hours (float)
-    2) number of inputs (int)
-    3) maximum output power in watt (double)
-    4) lenght in cm (int)
-    5) width in cm (int)
-3 things it can do:
-    1) amplify an electrical signal
-    2) consume electrical power
-    3) split the audio signal into frequency bands
- */
+void Terminal::providePorts()
+{
+    std::cout << numConnections << " Connections are available";
+}
+
+void Terminal::provideSwitches()
+{
+    std::cout << "Number of Switches: " << numSwitchesTerminal;
+}
+
+void Terminal::setVolume()
+{
+    std::cout << "Define the Volume here";
+}
 
 struct Amplifier
 {
-
-    //amount of power consumed in watt-hours (float)
     float consumedPower = 200.05f;
-    //number of inputs (int)
     int numInputsAmp = 4;
-    //maximum output power in watt (double)
     double maxOutPower = 200.5;
-    //lenght in cm (int)
     int lenghtAmp = 10;
-    //width in cm (int)
     int widthAmp = 10;
 
-    //amplify an electrical signal
     void amplifySignal();
-    //consume electrical power
     void consumePower();
-    //split the audio signal into frequency bands
     void splitFreqSignal(double splitFreqLow, double splitFreqHigh);
-
 };
 
-/*
-Thing 10) Active Loudspeaker Box
-5 properties:
-    1) Woofer
-    2) Tweeter
-    3) Enclosure
-    4) Terminal
-    5) Amplifier
-3 things it can do:
-    1) play audio signal
-    2) amplify audio signal
-    3) comsume electrical power
- */
+void Amplifier::amplifySignal()
+{
+    std::cout << "Check maximum Ouput Power:" << maxOutPower;
+}
+
+void Amplifier::consumePower()
+{
+    std::cout << "Consumed power is: " << consumedPower;
+}
+
+void Amplifier::splitFreqSignal(double splitFreqLow, double splitFreqHigh)
+{
+    splitFreqLow = 150.5;
+    splitFreqHigh = splitFreqLow + 2500.5;
+}
 
 struct ActiveLoudspeakerBox
 {
-
-    //Woofer
     Woofer wooferSmall;
-    //Tweeter
     Tweeter tweeterMid;
-    //Enclosure
     Enclosure ClosedBoxA;
-    //Terminal
     Terminal terminalA;
-    //Amplifier
     Amplifier StudioClassA;
 
-    //play audio signal
     void playAudioSignal(bool signalExists = true);
-    //amplify audio signal
     void amplifyAudioSignal(Amplifier ampA);
-    //comsume electrical power
-    double consumeElectricalPower(double voltageLevel); //returns average power consumption
-
+    double consumeElectricalPower(double voltageLevel);
 };
+
+void ActiveLoudspeakerBox::playAudioSignal(bool signalExists)
+{
+    if( signalExists == true)
+    {
+        std::cout << "signalYES";
+    }
+}
+
+void ActiveLoudspeakerBox::amplifyAudioSignal(Amplifier ampA)
+{
+    ampA.amplifySignal();
+}
+
+double ActiveLoudspeakerBox::consumeElectricalPower(double voltageLevel)
+{
+    voltageLevel = StudioClassA.maxOutPower / 2;
+    return voltageLevel;
+}
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
