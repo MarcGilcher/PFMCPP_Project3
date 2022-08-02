@@ -507,7 +507,7 @@ void ActiveLoudspeakerBox::playAudioSignal(bool signalExists)
 {
     if( signalExists == true)
     {
-        std::cout << "signalYES" << std::endl;
+        std::cout << "Incoming Audio Signal detected" << std::endl;
     }
 }
 
@@ -548,19 +548,19 @@ int main()
     std::cout << "The Keyboard has : " << MK61.numKeys << " Keys" << std::endl;
     std::cout << "Available Color : " << MK61.housingColor << std::endl;
     
-    Car Truck;
-    Car::Engine DieselEngine;
+    Car truck;
+    Car::Engine dieselEngine;
     
-    Truck.driveForward(1, true);
-    Truck.consumeFuel(true);
-    Truck.changeSparePart(DieselEngine);
-    std::cout << "The car has " << Truck.numWheels << " Wheels and " << Truck.numSeats << " Seats." << std::endl;
-    std::cout << "Amount of consumed fuel: " << Truck.averageFuel << " Liters" <<std::endl;
+    truck.driveForward(1, true);
+    truck.consumeFuel(true);
+    truck.changeSparePart(dieselEngine);
+    std::cout << "The car has " << truck.numWheels << " Wheels and " << truck.numSeats << " Seats." << std::endl;
+    std::cout << "Amount of consumed fuel: " << truck.averageFuel << " Liters" <<std::endl;
     
-    DieselEngine.burnFuel("Diesel", 98);
-    DieselEngine.rotateAxles(180.5, true);
-    DieselEngine.compressAir(800.35);
-    std::cout << "The engine Code is: " << DieselEngine.engineCode << std::endl;
+    dieselEngine.burnFuel("Diesel", 98);
+    dieselEngine.rotateAxles(180.5, true);
+    dieselEngine.compressAir(800.35);
+    std::cout << "The engine Code is: " << dieselEngine.engineCode << std::endl;
 
     Bicycle sportBicycle;
     sportBicycle.transportHuman();
@@ -569,16 +569,16 @@ int main()
     std::cout << "The actual gear is nr. " << sportBicycle.shiftGear(5) << std::endl;
 
     Player player1;
-    Player::Weapon Railgun;
+    Player::Weapon railGun;
     
     player1.moveX();
     player1.moveY();
-    player1.getWeaponUpgrade(Railgun);
+    player1.getWeaponUpgrade(railGun);
     std::cout << "Player Name: " << player1.namePlayer << std::endl;
     
-    Railgun.shootBullet(10.5,20.0);
-    Railgun.makeNoise(true);
-    Railgun.changeBulletPattern(2);
+    railGun.shootBullet(10.5,20.0);
+    railGun.makeNoise(true);
+    railGun.changeBulletPattern(2);
 
     Woofer woofer1;
     woofer1.vibrateAir();
