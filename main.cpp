@@ -75,6 +75,8 @@ int main()
 
 struct MidiKeyboard
 {
+    MidiKeyboard();
+
     int numKeys = 61;
     int numUsbPorts = 2;
     int numControlKnobs = 8;
@@ -84,8 +86,12 @@ struct MidiKeyboard
     void transmitOutputMidiData (int outputMidiChannel);
     void playArp (int arpPatternNumber);
     void transmitMidiControllerData (int midiControlChangeMessageNumber);
-
 };
+
+MidiKeyboard::MidiKeyboard()
+{
+    std::cout << "MidiKeyboard being constructed!" << std::endl;
+}
 
 void MidiKeyboard::transmitOutputMidiData( int outputMidiChannel )
 {
@@ -104,6 +110,8 @@ void MidiKeyboard::transmitMidiControllerData( int midiControlChangeMessageNumbe
 
 struct Car
 {
+    Car();
+
     int numWheels = 4;
     int numSeats = 5;
     double maxVelocity = 210.5;
@@ -112,6 +120,8 @@ struct Car
 
     struct Engine
     {
+        Engine();
+        
         bool isOriginalPart = true;
         std::string engineCode = "77AA3B";
         int numCylinder = 6;
@@ -129,6 +139,16 @@ struct Car
 
     Engine engineBeingChanged;
 };
+
+Car::Car()
+{
+    std::cout << "Car being constructed!" << std::endl;
+}
+
+Car::Engine::Engine()
+{
+    std::cout << "Engine being constructed!" << std::endl;
+}
 
 void Car::Engine::burnFuel(std::string fuelType, int maxOctaneNumber )
 {
@@ -177,6 +197,8 @@ void Car::changeSparePart(Car::Engine newEngine)
 
 struct Bicycle
 {
+    Bicycle();
+
     double diameterWheels = 28.5;
     double sizeFrame = 40.5;
     int numGears = 21;
@@ -187,6 +209,11 @@ struct Bicycle
     int shiftGear(int numActualGear);
     void decelarateBike();
 };
+
+Bicycle::Bicycle()
+{
+    std::cout << "Bicycle being constructed!" << std::endl;
+}
 
 void Bicycle::transportHuman()
 {
@@ -205,6 +232,8 @@ void Bicycle::decelarateBike()
 
 struct Player
 {
+    Player();
+
     std::string namePlayer = "Player1";
     float startXPos = 0.0f;
     float startYPos = 10.05f;
@@ -213,6 +242,8 @@ struct Player
 
     struct Weapon
     {
+        Weapon();
+        
         bool isWeaponFreeZone = false;
         std::string weaponType = "Shotgun";
         int numBullets = 10;
@@ -230,6 +261,16 @@ struct Player
 
     Weapon weaponUpgrade;
 };
+
+Player::Player()
+{
+    std::cout << "Player being constructed!" << std::endl;
+}
+
+Player::Weapon::Weapon()
+{
+    std::cout << "Weapon being constructed!" << std::endl;
+}
 
 void Player::Weapon::shootBullet(double bulletCoordinateX, double bulletCoordinateY)
 {
@@ -252,12 +293,12 @@ void Player::Weapon::changeBulletPattern(int bulletPatternNum)
 
 void Player::moveX()
 {
-    std::cout << "Player " << namePlayer << " moved in X";
+    std::cout << "Player " << namePlayer << " moved in X" << std::endl;
 }
 
 void Player::moveY()
 {
-    std::cout << "Player " << namePlayer << " moved in Y";
+    std::cout << "Player " << namePlayer << " moved in Y" << std::endl;
 }
 
 void Player::getWeaponUpgrade(Player::Weapon newWeapon)
@@ -267,6 +308,8 @@ void Player::getWeaponUpgrade(Player::Weapon newWeapon)
 
 struct Woofer
 {
+    Woofer();
+
     int coneDiameter = 17;
     double resFreqWoofer = 50.5;
     int overallLenght = 25;
@@ -278,23 +321,30 @@ struct Woofer
     void playLowFreq();
 };
 
+Woofer::Woofer()
+{
+    std::cout << "Woofer being constructed!" << std::endl;
+}
+
 void Woofer::vibrateAir()
 {
-    std::cout << "Woofer SPL is " << splWoofer;
+    std::cout << "Woofer SPL is in Hz: " << splWoofer << std::endl;
 }
 
 void Woofer::driveTube()
 {
-    std::cout << "Resonance Frequency is " << resFreqWoofer;
+    std::cout << "Resonance Frequency is in Hz: " << resFreqWoofer << std::endl;
 }
 
 void Woofer::playLowFreq()
 {
-    std::cout << "Woofer starts playing";
+    std::cout << "Woofer starts playing" << std::endl;
 }
 
 struct Tweeter
 {
+    Tweeter();
+
     double domeDiameter = 25.4;
     double voiceCoilDiameter = 8.4;
     double resFreqTweeter = 3850.5;
@@ -306,6 +356,11 @@ struct Tweeter
     void connectToAmp(int lenghtWire);
 };
 
+Tweeter::Tweeter()
+{
+    std::cout << "Tweeter being constructed!" << std::endl;
+}
+
 void Tweeter::playHighFrq(int splitFreqTweeter)
 {
     splitFreqTweeter += 500;
@@ -313,7 +368,7 @@ void Tweeter::playHighFrq(int splitFreqTweeter)
 
 void Tweeter::convertSignalToWaveform()
 {
-    std::cout << "start converting";
+    std::cout << "start converting" << std::endl;
 }
 
 void Tweeter::connectToAmp(int lenghtWire)
@@ -324,6 +379,8 @@ void Tweeter::connectToAmp(int lenghtWire)
 
 struct Enclosure
 {
+    Enclosure();
+
     int lenghtEnclosure = 40;
     int widthEnclosure = 20;
     int heightEnclosure = 30;
@@ -335,23 +392,30 @@ struct Enclosure
     void terminalMount();
 };
 
+Enclosure::Enclosure()
+{
+    std::cout << "Enclosure being constructed!" << std::endl;
+}
+
 void Enclosure::provideVolume()
 {
-    std::cout << "Volume is: " << volEnclosure;
+    std::cout << "Volume is in Liter: " << volEnclosure << std::endl;
 }
 
 void Enclosure::wooferMount()
 {
-    std::cout << "max space for woofer is: " << widthEnclosure;
+    std::cout << "Maximum space for woofer is in cm: " << widthEnclosure << std::endl;
 }
 
 void Enclosure::terminalMount()
 {
-    std::cout << "use a proper terminal";
+    std::cout << "Use a proper terminal" << std::endl;
 }
 
 struct Terminal
 {
+    Terminal();
+
     int numConnections = 4;
     int numFixations = 4;
     int lenghtTerminal = 5;
@@ -363,24 +427,31 @@ struct Terminal
     void setVolume();
 };
 
+Terminal::Terminal()
+{
+    std::cout << "Terminal being constructed!" << std::endl;
+}
+
 void Terminal::providePorts()
 {
-    std::cout << numConnections << " Connections are available";
+    std::cout << numConnections << " Connections are available" << std::endl;
 }
 
 void Terminal::provideSwitches()
 {
-    std::cout << "Number of Switches: " << numSwitchesTerminal;
+    std::cout << "Number of Switches: " << numSwitchesTerminal << std::endl;
 }
 
 void Terminal::setVolume()
 {
-    std::cout << "Define the Volume here";
+    std::cout << "Define the Volume here" << std::endl;
 }
 
 struct Amplifier
 {
-    float consumedPower = 200.05f;
+    Amplifier();
+
+    float consumedPower = 50.05f;
     int numInputsAmp = 4;
     double maxOutPower = 200.5;
     int lenghtAmp = 10;
@@ -391,14 +462,19 @@ struct Amplifier
     void splitFreqSignal(double splitFreqLow, double splitFreqHigh);
 };
 
+Amplifier::Amplifier()
+{
+    std::cout << "Amplifier being constructed!" << std::endl;
+}
+
 void Amplifier::amplifySignal()
 {
-    std::cout << "Check maximum Ouput Power:" << maxOutPower;
+    std::cout << "Check maximum Amplifier Ouput Power in Watt: " << maxOutPower << std::endl;
 }
 
 void Amplifier::consumePower()
 {
-    std::cout << "Consumed power is: " << consumedPower;
+    std::cout << "Consumed power is in kwh: " << consumedPower << std::endl;
 }
 
 void Amplifier::splitFreqSignal(double splitFreqLow, double splitFreqHigh)
@@ -409,6 +485,8 @@ void Amplifier::splitFreqSignal(double splitFreqLow, double splitFreqHigh)
 
 struct ActiveLoudspeakerBox
 {
+    ActiveLoudspeakerBox();
+
     Woofer wooferSmall;
     Tweeter tweeterMid;
     Enclosure ClosedBoxA;
@@ -420,11 +498,16 @@ struct ActiveLoudspeakerBox
     double consumeElectricalPower(double voltageLevel);
 };
 
+ActiveLoudspeakerBox::ActiveLoudspeakerBox()
+{
+    std::cout << "ActiveLoudspeakerBox being constructed!" << std::endl;
+}
+
 void ActiveLoudspeakerBox::playAudioSignal(bool signalExists)
 {
     if( signalExists == true)
     {
-        std::cout << "signalYES";
+        std::cout << "Incoming Audio Signal detected" << std::endl;
     }
 }
 
@@ -457,6 +540,78 @@ double ActiveLoudspeakerBox::consumeElectricalPower(double voltageLevel)
 int main()
 {
     Example::main();
+
+    MidiKeyboard MK61;
+    MK61.transmitOutputMidiData(6);
+    MK61.playArp(10);
+    MK61.transmitMidiControllerData(27);
+    std::cout << "The Keyboard has : " << MK61.numKeys << " Keys" << std::endl;
+    std::cout << "Available Color : " << MK61.housingColor << std::endl;
+    
+    Car truck;
+    Car::Engine dieselEngine;
+    
+    truck.driveForward(1, true);
+    truck.consumeFuel(true);
+    truck.changeSparePart(dieselEngine);
+    std::cout << "The car has " << truck.numWheels << " Wheels and " << truck.numSeats << " Seats." << std::endl;
+    std::cout << "Amount of consumed fuel: " << truck.averageFuel << " Liters" <<std::endl;
+    
+    dieselEngine.burnFuel("Diesel", 98);
+    dieselEngine.rotateAxles(180.5, true);
+    dieselEngine.compressAir(800.35);
+    std::cout << "The engine Code is: " << dieselEngine.engineCode << std::endl;
+
+    Bicycle sportBicycle;
+    sportBicycle.transportHuman();
+    sportBicycle.shiftGear(5);
+    sportBicycle.decelarateBike();
+    std::cout << "The actual gear is nr. " << sportBicycle.shiftGear(5) << std::endl;
+
+    Player player1;
+    Player::Weapon railGun;
+    
+    player1.moveX();
+    player1.moveY();
+    player1.getWeaponUpgrade(railGun);
+    std::cout << "Player Name: " << player1.namePlayer << std::endl;
+    
+    railGun.shootBullet(10.5,20.0);
+    railGun.makeNoise(true);
+    railGun.changeBulletPattern(2);
+
+    Woofer woofer1;
+    woofer1.vibrateAir();
+    woofer1.driveTube();
+    woofer1.playLowFreq();
+    std::cout << "The size classification of the woofer is: " << woofer1.coneDiameter << std::endl;
+    
+    Tweeter domeTweeter1;
+    domeTweeter1.playHighFrq(2500);
+    domeTweeter1.convertSignalToWaveform();
+    domeTweeter1.connectToAmp(5);
+    std::cout << "Dome Diameter is: " << domeTweeter1.domeDiameter << " mm" << std::endl;
+
+    Enclosure box1;
+    box1.provideVolume();
+    box1.wooferMount();
+    box1.terminalMount();
+
+    Terminal terminal1;
+    terminal1.providePorts();
+    terminal1.provideSwitches();
+    terminal1.setVolume();
+    
+    Amplifier amp1;
+    amp1.amplifySignal();
+    amp1.consumePower();
+    amp1.splitFreqSignal(100.0, 2000.5);
+    
+    ActiveLoudspeakerBox speaker1;
+    speaker1.playAudioSignal(true);
+    speaker1.amplifyAudioSignal(amp1);
+    speaker1.consumeElectricalPower(100);
+    std::cout << "This Loudspeaker contains a " << woofer1.coneDiameter << "cm Woofer" << std::endl;
     
     
     std::cout << "good to go!" << std::endl;
