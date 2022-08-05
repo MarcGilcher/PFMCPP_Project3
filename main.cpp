@@ -43,20 +43,22 @@ int main()
 
 struct MidiKeyboard
 {
-    MidiKeyboard();
-
-    int numKeys = 61;
-    int numUsbPorts = 2;
+    
+    int numKeys;
+    int numUsbPorts;
     int numControlKnobs = 8;
     double inputVoltageLevel = 5.5;
     std::string housingColor = "black";
+    int maxNumArp;
+
+    MidiKeyboard();
 
     void transmitOutputMidiData (int outputMidiChannel);
     void playArp (int arpPatternNumber);
     void transmitMidiControllerData (int midiControlChangeMessageNumber);
 };
 
-MidiKeyboard::MidiKeyboard()
+MidiKeyboard::MidiKeyboard() : numKeys(61), numUsbPorts(2), maxNumArp(32)
 {
     std::cout << "MidiKeyboard being constructed!" << std::endl;
 }
@@ -64,11 +66,13 @@ MidiKeyboard::MidiKeyboard()
 void MidiKeyboard::transmitOutputMidiData( int outputMidiChannel )
 {
     outputMidiChannel = 1;
+    std::cout << "Device has " << numUsbPorts << " USB-Ports available." << std::endl;
 }
 
 void MidiKeyboard::playArp( int arpPatternNumber )
 {
     arpPatternNumber = 1;
+    std::cout << "Playing Arpeggio Nr. " << arpPatternNumber << " out of " << maxNumArp << std::endl;
 }
 
 void MidiKeyboard::transmitMidiControllerData( int midiControlChangeMessageNumber )
@@ -82,9 +86,7 @@ struct Car
 
     int numWheels = 4;
     int numSeats = 5;
-    double maxVelocity = 210.5;
-    double averageFuel = 6.5;
-    double maxLoad = 215.5;
+    double maxVelocity, averageFuel, maxLoad;
 
     struct Engine
     {
@@ -92,9 +94,8 @@ struct Car
         
         bool isOriginalPart = true;
         std::string engineCode = "77AA3B";
-        int numCylinder = 6;
+        int numCylinder, numValves;
         double strokeVolume = 3.2;
-        int numValves = 16;
 
         void burnFuel(std::string fuelType, int maxOctaneNumber = 98);
         void rotateAxles(double maxTorque, bool isFourWheelDrive = false);
@@ -108,12 +109,12 @@ struct Car
     Engine engineBeingChanged;
 };
 
-Car::Car()
+Car::Car() : maxVelocity(210.5), averageFuel(6.5), maxLoad(215.5)
 {
     std::cout << "Car being constructed!" << std::endl;
 }
 
-Car::Engine::Engine()
+Car::Engine::Engine() : numCylinder(6), numValves(16)
 {
     std::cout << "Engine being constructed!" << std::endl;
 }
@@ -138,6 +139,7 @@ double Car::Engine::compressAir(double resonaceFrequency)
 {
     double pressure = 0.0;
     pressure = resonaceFrequency * 10;
+    std::cout << "Compressing Air in " << numCylinder << " Cylinders" << std::endl;
     return pressure; 
 }
 
@@ -151,6 +153,7 @@ void Car::driveForward(int numGear, bool isBrakeReleased)
 
 double Car::consumeFuel(bool pedalKickdown)
 {
+    std::cout << "The average amount of fuel used is: " << averageFuel << std::endl;
     if( pedalKickdown == true )
     {
         averageFuel *= 2;
@@ -167,8 +170,7 @@ struct Bicycle
 {
     Bicycle();
 
-    double diameterWheels = 28.5;
-    double sizeFrame = 40.5;
+    double diameterWheels, sizeFrame;
     int numGears = 21;
     std::string typeBrakes = "disc";
     double price = 500.50;
@@ -178,7 +180,7 @@ struct Bicycle
     void decelarateBike();
 };
 
-Bicycle::Bicycle()
+Bicycle::Bicycle() : diameterWheels(28.5), sizeFrame(40.5)
 {
     std::cout << "Bicycle being constructed!" << std::endl;
 }
@@ -202,8 +204,8 @@ struct Player
 {
     Player();
 
-    std::string namePlayer = "Player1";
-    float startXPos = 0.0f;
+    std::string namePlayer;
+    float startXPos {0.0f};
     float startYPos = 10.05f;
     double speedX = 10.5;
     int timeLastShoot = 5;
@@ -213,7 +215,7 @@ struct Player
         Weapon();
         
         bool isWeaponFreeZone = false;
-        std::string weaponType = "Shotgun";
+        std::string weaponType;
         int numBullets = 10;
         int damage = 100;
         int noiseType = 2;
@@ -230,12 +232,12 @@ struct Player
     Weapon weaponUpgrade;
 };
 
-Player::Player()
+Player::Player() : namePlayer("Player One")
 {
-    std::cout << "Player being constructed!" << std::endl;
+    std::cout << "Player: " << namePlayer << " being constructed!" << std::endl;
 }
 
-Player::Weapon::Weapon()
+Player::Weapon::Weapon() : weaponType("Shotgun")
 {
     std::cout << "Weapon being constructed!" << std::endl;
 }
@@ -278,9 +280,8 @@ struct Woofer
 {
     Woofer();
 
-    int coneDiameter = 17;
+    int coneDiameter, overallLenght;
     double resFreqWoofer = 50.5;
-    int overallLenght = 25;
     double menbraneArea = 142.4;
     float splWoofer = 98.05f;
 
@@ -289,7 +290,7 @@ struct Woofer
     void playLowFreq();
 };
 
-Woofer::Woofer()
+Woofer::Woofer() : coneDiameter(17), overallLenght(25)
 {
     std::cout << "Woofer being constructed!" << std::endl;
 }
@@ -313,18 +314,15 @@ struct Tweeter
 {
     Tweeter();
 
-    double domeDiameter = 25.4;
-    double voiceCoilDiameter = 8.4;
-    double resFreqTweeter = 3850.5;
+    double domeDiameter, voiceCoilDiameter, resFreqTweeter, dcResistanceTweeter;
     float splTweeter = 102.12f;
-    double dcResistanceTweeter = 3.8;
 
     void playHighFrq(int splitFreqTweeter);
     void convertSignalToWaveform();
     void connectToAmp(int lenghtWire);
 };
 
-Tweeter::Tweeter()
+Tweeter::Tweeter() : domeDiameter(25.4), voiceCoilDiameter(8.4), resFreqTweeter(3850.5), dcResistanceTweeter(3.8)
 {
     std::cout << "Tweeter being constructed!" << std::endl;
 }
@@ -332,6 +330,7 @@ Tweeter::Tweeter()
 void Tweeter::playHighFrq(int splitFreqTweeter)
 {
     splitFreqTweeter += 500;
+    std::cout << "The Resonance Frequency is at: " << resFreqTweeter << std::endl;
 }
 
 void Tweeter::convertSignalToWaveform()
@@ -349,9 +348,7 @@ struct Enclosure
 {
     Enclosure();
 
-    int lenghtEnclosure = 40;
-    int widthEnclosure = 20;
-    int heightEnclosure = 30;
+    int lenghtEnclosure, widthEnclosure, heightEnclosure;
     float volEnclosure = 24;
     int weightEnclosure = 2500;
 
@@ -360,7 +357,7 @@ struct Enclosure
     void terminalMount();
 };
 
-Enclosure::Enclosure()
+Enclosure::Enclosure() : lenghtEnclosure(40), widthEnclosure(20), heightEnclosure(30)
 {
     std::cout << "Enclosure being constructed!" << std::endl;
 }
@@ -386,8 +383,7 @@ struct Terminal
 
     int numConnections = 4;
     int numFixations = 4;
-    int lenghtTerminal = 5;
-    int widthTerminal = 7;
+    int lenghtTerminal, widthTerminal;
     int numSwitchesTerminal = 2;
 
     void providePorts();
@@ -395,7 +391,7 @@ struct Terminal
     void setVolume();
 };
 
-Terminal::Terminal()
+Terminal::Terminal() : lenghtTerminal(5), widthTerminal(7)
 {
     std::cout << "Terminal being constructed!" << std::endl;
 }
@@ -422,15 +418,14 @@ struct Amplifier
     float consumedPower = 50.05f;
     int numInputsAmp = 4;
     double maxOutPower = 200.5;
-    int lenghtAmp = 10;
-    int widthAmp = 10;
+    int lenghtAmp, widthAmp;
 
     void amplifySignal();
     void consumePower();
     void splitFreqSignal(double splitFreqLow, double splitFreqHigh);
 };
 
-Amplifier::Amplifier()
+Amplifier::Amplifier() : lenghtAmp(10), widthAmp(10)
 {
     std::cout << "Amplifier being constructed!" << std::endl;
 }
@@ -466,7 +461,7 @@ struct ActiveLoudspeakerBox
     double consumeElectricalPower(double voltageLevel);
 };
 
-ActiveLoudspeakerBox::ActiveLoudspeakerBox()
+ActiveLoudspeakerBox::ActiveLoudspeakerBox() : wooferSmall(Woofer()), tweeterMid(Tweeter())
 {
     std::cout << "ActiveLoudspeakerBox being constructed!" << std::endl;
 }
@@ -509,12 +504,12 @@ int main()
 {
     Example::main();
 
-    MidiKeyboard MK61;
-    MK61.transmitOutputMidiData(6);
-    MK61.playArp(10);
-    MK61.transmitMidiControllerData(27);
-    std::cout << "The Keyboard has : " << MK61.numKeys << " Keys" << std::endl;
-    std::cout << "Available Color : " << MK61.housingColor << std::endl;
+    MidiKeyboard mk61;
+    mk61.transmitOutputMidiData(6);
+    mk61.playArp(10);
+    mk61.transmitMidiControllerData(27);
+    std::cout << "The Keyboard has : " << mk61.numKeys << " Keys" << std::endl;
+    std::cout << "Available Color : " << mk61.housingColor << std::endl;
     
     Car truck;
     Car::Engine dieselEngine;
