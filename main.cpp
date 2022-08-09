@@ -571,7 +571,7 @@ struct Amplifier
     void autoIncreaseVolume (int setVolume, int actualVolume)
     {
         int stepVolume = 3;
-        for (actualVolume; actualVolume <= setVolume; actualVolume += stepVolume)
+        for (;actualVolume <= setVolume; actualVolume += stepVolume)
         {
             std::cout << "Display Volume: " << actualVolume << " db" << std::endl;
         }    
