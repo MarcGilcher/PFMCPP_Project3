@@ -72,7 +72,11 @@ int main()
 
 
 
-
+struct ShutDownCounter
+{
+    int num = 0;
+    ShutDownCounter(int n) : num(n) {}
+};
 
 struct MidiKeyboard
 {
@@ -89,6 +93,31 @@ struct MidiKeyboard
     void transmitOutputMidiData (int outputMidiChannel);
     void playArp (int arpPatternNumber);
     void transmitMidiControllerData (int midiControlChangeMessageNumber);
+    void repeatPattern(int numRepeat)
+    {
+        int i = 1;
+        while( numRepeat > i )
+        {
+                ++i;
+                std::cout << "Pattern will be repeatet" << std::endl;    
+        }
+        std::cout << "Pattern was " << numRepeat << "times repeatet" << std::endl;
+    }
+
+    ShutDownCounter shutDownFunc( int shutDownBlocks, int startBlock )
+    {
+        ShutDownCounter midiKeyboardCounter(startBlock);
+        while( midiKeyboardCounter.num < shutDownBlocks )
+        {
+            midiKeyboardCounter.num += 1;
+            std::cout << "working on shut down block nr " << midiKeyboardCounter.num << std::endl;
+            if( midiKeyboardCounter.num > shutDownBlocks )
+                return midiKeyboardCounter;
+        }
+
+        return ShutDownCounter{midiKeyboardCounter.num};
+    }
+
 };
 
 MidiKeyboard::MidiKeyboard() : numKeys(61), numUsbPorts(2), maxNumArp(32)
@@ -120,6 +149,7 @@ struct Car
     int numWheels = 4;
     int numSeats = 5;
     double maxVelocity, averageFuel, maxLoad;
+    int serviceIntervalMonth = 12;
 
     struct Engine
     {
@@ -138,6 +168,33 @@ struct Car
     void driveForward(int numGear, bool isBrakeReleased = true);
     double consumeFuel(bool pedalKickdown = true);
     void changeSparePart(Engine newEngine);
+    void carService(int reminderTimeMonth)
+    {
+        int i = 0;
+        while( i < serviceIntervalMonth )
+        {
+             ++i;
+            if ( i == reminderTimeMonth )
+            {
+                std::cout << "It is time to book a service" << std::endl;
+            }
+            
+        }
+        std::cout << "Service time overdue!" << std::endl;
+    }
+
+    int refuelCar( int fuelCapacity )
+    {
+        int currentFuel = 5;
+        std::cout << "Starting Refueling. Fuel is: "  << currentFuel << std::endl;
+        
+        for ( currentFuel = 5; currentFuel <= fuelCapacity; currentFuel +=5 )
+        {
+            std::cout << "adding fuel" << std::endl;
+        }
+        return currentFuel;
+
+    }
 
     Engine engineBeingChanged;
 };
@@ -211,6 +268,26 @@ struct Bicycle
     void transportHuman();
     int shiftGear(int numActualGear);
     void decelarateBike();
+    int checkGear( int startGear, int lastGear)
+    {
+        int actualGear = startGear -1;
+        
+        while ( actualGear <= lastGear )
+        {
+            ++actualGear;
+            std::cout << "Checking Gear Nr.:" << actualGear << std::endl;
+            if ( actualGear == 8 || actualGear == 15)
+            {
+                std::cout << "changing to next wheel sprocket." << std::endl;  
+            }
+            if ( actualGear == lastGear)
+            {
+                std::cout << "This was the last gear to check." << std::endl;
+                return actualGear;   
+            }    
+        }  
+        return 0;
+    }
 };
 
 Bicycle::Bicycle() : diameterWheels(28.5), sizeFrame(40.5)
@@ -261,6 +338,15 @@ struct Player
     void moveX();
     void moveY();
     void getWeaponUpgrade(Weapon newWeapon);
+    int collisionCheck( int numCollisionObjects)
+    {
+        for ( int i =1; i <= numCollisionObjects; ++i)
+        { 
+            std::cout << "Checking Collision" << std::endl;
+        }
+        return numCollisionObjects;
+    }
+
 
     Weapon weaponUpgrade;
 };
@@ -321,6 +407,14 @@ struct Woofer
     void vibrateAir();
     void driveTube();
     void playLowFreq();
+    int fillStock( int newStock )
+    {
+        for (int i = 1; i <= newStock; ++i)
+        {
+            std::cout << "New woofer add to stock." << std::endl;
+        }
+        return newStock;
+    }
 };
 
 Woofer::Woofer() : coneDiameter(17), overallLenght(25)
@@ -353,6 +447,16 @@ struct Tweeter
     void playHighFrq(int splitFreqTweeter);
     void convertSignalToWaveform();
     void connectToAmp(int lenghtWire);
+    int fillStock(int newStock)
+    {
+        int i = 1;
+        while ( i <= newStock )
+        {
+            ++i;
+            std::cout << "New Tweeter add to stock." << std::endl;
+        }
+        return newStock;
+    }
 };
 
 Tweeter::Tweeter() : domeDiameter(25.4), voiceCoilDiameter(8.4), resFreqTweeter(3850.5), dcResistanceTweeter(3.8)
@@ -388,6 +492,14 @@ struct Enclosure
     void provideVolume();
     void wooferMount();
     void terminalMount();
+    void robustTest(int reqCrashes)
+    {
+        for ( int i =1; i <= reqCrashes; ++i)
+        {
+            std::cout << "Test Nr.: " << i << " finsihed." << std::endl;
+        }
+        std::cout << "Test finished" << std::endl;
+    }
 };
 
 Enclosure::Enclosure() : lenghtEnclosure(40), widthEnclosure(20), heightEnclosure(30)
@@ -456,6 +568,14 @@ struct Amplifier
     void amplifySignal();
     void consumePower();
     void splitFreqSignal(double splitFreqLow, double splitFreqHigh);
+    void autoIncreaseVolume (int setVolume, int actualVolume)
+    {
+        int stepVolume = 3;
+        for (;actualVolume <= setVolume; actualVolume += stepVolume)
+        {
+            std::cout << "Display Volume: " << actualVolume << " db" << std::endl;
+        }    
+    }
 };
 
 Amplifier::Amplifier() : lenghtAmp(10), widthAmp(10)
@@ -543,6 +663,9 @@ int main()
     mk61.transmitMidiControllerData(27);
     std::cout << "The Keyboard has : " << mk61.numKeys << " Keys" << std::endl;
     std::cout << "Available Color : " << mk61.housingColor << std::endl;
+    mk61.repeatPattern(5);
+    auto midiKeyboardCounter = mk61.shutDownFunc(5, 0);
+    std::cout << "Shutdown Blocks: " << midiKeyboardCounter.num << std::endl;
     
     Car truck;
     Car::Engine dieselEngine;
@@ -552,6 +675,9 @@ int main()
     truck.changeSparePart(dieselEngine);
     std::cout << "The car has " << truck.numWheels << " Wheels and " << truck.numSeats << " Seats." << std::endl;
     std::cout << "Amount of consumed fuel: " << truck.averageFuel << " Liters" <<std::endl;
+    truck.carService(10);
+    int newAmountOfFuel = truck.refuelCar(60);
+    std::cout << "New quantity of fuel is: " << newAmountOfFuel << std::endl;
     
     dieselEngine.burnFuel("Diesel", 98);
     dieselEngine.rotateAxles(180.5, true);
@@ -563,6 +689,8 @@ int main()
     sportBicycle.shiftGear(5);
     sportBicycle.decelarateBike();
     std::cout << "The actual gear is nr. " << sportBicycle.shiftGear(5) << std::endl;
+    sportBicycle.checkGear(1, 21);
+    
 
     Player player1;
     Player::Weapon railGun;
@@ -571,6 +699,7 @@ int main()
     player1.moveY();
     player1.getWeaponUpgrade(railGun);
     std::cout << "Player Name: " << player1.namePlayer << std::endl;
+    std::cout << player1.collisionCheck(5) << " possible Collisions checked." << std::endl;
     
     railGun.shootBullet(10.5,20.0);
     railGun.makeNoise(true);
@@ -581,17 +710,22 @@ int main()
     woofer1.driveTube();
     woofer1.playLowFreq();
     std::cout << "The size classification of the woofer is: " << woofer1.coneDiameter << std::endl;
+    auto wooferStock = woofer1.fillStock(5);
+    std::cout << "Woofer stock is filled up with " << wooferStock << " Parts." << std::endl;
     
     Tweeter domeTweeter1;
     domeTweeter1.playHighFrq(2500);
     domeTweeter1.convertSignalToWaveform();
     domeTweeter1.connectToAmp(5);
     std::cout << "Dome Diameter is: " << domeTweeter1.domeDiameter << " mm" << std::endl;
+    auto tweeterStock = domeTweeter1.fillStock(3);
+    std::cout << "Tweeter stock is now at " << tweeterStock << " Parts." << std::endl;
 
     Enclosure box1;
     box1.provideVolume();
     box1.wooferMount();
     box1.terminalMount();
+    box1.robustTest(3);
 
     Terminal terminal1;
     terminal1.providePorts();
@@ -602,6 +736,7 @@ int main()
     amp1.amplifySignal();
     amp1.consumePower();
     amp1.splitFreqSignal(100.0, 2000.5);
+    amp1.autoIncreaseVolume(50, 30);
     
     ActiveLoudspeakerBox speaker1;
     speaker1.playAudioSignal(true);
